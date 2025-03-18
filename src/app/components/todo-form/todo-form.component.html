@@ -1,0 +1,28 @@
+<mat-card class="todo-form-card">
+  <mat-card-header>
+    <mat-card-title>Add Todo</mat-card-title>
+  </mat-card-header>
+  <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" required>
+      <mat-error *ngIf="todoForm.get('title')?.hasError('required') && todoForm.get('title')?.touched">
+        Title is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="description">
+    </mat-form-field>
+    <mat-card-actions class="premium-actions">
+      <button mat-raised-button class="premium-btn primary-btn" type="submit"
+        [disabled]="isLoading || todoForm.invalid">
+        <span *ngIf="!isLoading">Add Todo</span>
+        <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+      </button>
+      <button mat-button class="premium-btn secondary-btn" [routerLink]="['/todos']" [disabled]="isLoading">
+        Cancel
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>

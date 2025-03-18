@@ -1,0 +1,65 @@
+.premium-toolbar {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.toolbar-title {
+    .title-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        height: 100%;
+        /* Match toolbar height */
+        display: flex;
+        align-items: center;
+
+        span {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: white;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        &:hover {
+            span {
+                color: #f0f0f0;
+                /* Slightly lighter on hover */
+                text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+            }
+        }
+    }
+}
+
+.premium-btn {
+    padding: 0 1.5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+}
+
+.logout-btn {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+
+    &:hover {
+        background: linear-gradient(135deg, #ff8e53 0%, #ff6b6b 100%);
+        box-shadow: 0 6px 16px rgba(255, 107, 107, 0.6);
+        transform: translateY(-2px);
+    }
+
+    &:disabled {
+        background: #ccc;
+        box-shadow: none;
+        cursor: not-allowed;
+    }
+}

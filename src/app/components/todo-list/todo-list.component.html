@@ -1,0 +1,74 @@
+<mat-card class="todo-card">
+    <mat-card-header>
+        <mat-card-title class="premium-title">My Todos</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-actions class="premium-actions">
+        <button mat-raised-button class="filter-btn" [class.active]="activeFilter === 'all'"
+            (click)="filterTodos('all')">All</button>
+        <button mat-raised-button class="filter-btn" [class.active]="activeFilter === 'completed'"
+            (click)="filterTodos('completed')">Completed</button>
+        <button mat-raised-button class="filter-btn" [class.active]="activeFilter === 'pending'"
+            (click)="filterTodos('pending')">Pending</button>
+        <button mat-raised-button class="premium-btn add-btn" [routerLink]="['/add-todo']">+ Add Todo</button>
+    </mat-card-actions>
+
+    <!-- Search Input -->
+    <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search Todos</mat-label>
+        <input matInput [formControl]="searchControl" placeholder="Enter todo title">
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <div *ngIf="isLoading; else todoContent" class="loading-container">
+        <mat-spinner color="primary"></mat-spinner>
+        <p>Loading your tasks...</p>
+    </div>
+
+    <ng-template #todoContent>
+        <mat-table [dataSource]="filteredTodos" class="premium-table">
+            <!-- Completed Column -->
+            <ng-container matColumnDef="completed">
+                <mat-header-cell *matHeaderCellDef>Done</mat-header-cell>
+                <mat-cell *matCellDef="let todo">
+                    <mat-checkbox [checked]="todo.completed" (change)="toggleTodo(todo)"></mat-checkbox>
+                </mat-cell>
+            </ng-container>
+
+            <!-- Title Column -->
+            <ng-container matColumnDef="title">
+                <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+                <mat-cell *matCellDef="let todo">{{ todo.title }}</mat-cell>
+            </ng-container>
+
+            <!-- Description Column -->
+            <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+                <mat-cell *matCellDef="let todo">{{ todo.description }}</mat-cell>
+            </ng-container>
+
+            <!-- Delete Column -->
+            <ng-container matColumnDef="delete">
+                <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                <mat-cell *matCellDef="let todo">
+                    <button mat-icon-button class="delete-btn" (click)="deleteTodo(todo)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+        <!-- Message below table -->
+        <div class="table-message">
+            <p *ngIf="activeFilter === 'pending' && filteredTodos.length === 0 && !searchQuery">No pending tasks</p>
+            <p *ngIf="activeFilter === 'completed' && filteredTodos.length === 0 && !searchQuery">No completed tasks</p>
+            <p *ngIf="activeFilter === 'all' && filteredTodos.length === 0 && !searchQuery">No tasks available</p>
+            <p *ngIf="filteredTodos.length === 0 && searchQuery">No todo found with name "{{ searchQuery }}"</p>
+            <p *ngIf="filteredTodos.length > 0">Showing {{ filteredTodos.length }} {{ activeFilter }} task{{
+                filteredTodos.length > 1 ? 's' : '' }}</p>
+        </div>
+    </ng-template>
+</mat-card>
